@@ -123,7 +123,7 @@ So why should you consider Python for your data analysis? There are a few reason
 
 - Because Python is quite popular and fairly mature, there are quite a lot of resources out there to help you get started learning, from free online tutorials and cheatsheets to semester-long courses and everything in between.
 
-### Knowledge Check 1
+### Quiz: Why Python?
 
 What are some reasons to consider using Python for data analysis? Select all that apply.
 
@@ -197,7 +197,7 @@ This is a hands-on activity! Feel free to pop over to that tab you opened in the
 
 <a href = "https://mybinder.org/v2/gh/arcus/education_modules/main?labpath=intro_to_python%2Fnotebooks%2Fintro-to-python.ipynb" target = "_blank"> <img src = "https://mybinder.org/badge_logo.svg"></a> **← Click the "launch binder" button!**
 
-### Knowledge Check 2
+### Quiz: Python Code
 
 Which of the following is **not** an example of Python code?
 
@@ -212,7 +212,7 @@ Python uses functions that contain instructions that tell the computer what it i
 ***********************************************************************
 
 
-### Knowledge Check 3
+### Quiz: Jupyter Notebook
 
 What are the components of a Jupyter notebook? Select all that apply.
 
@@ -242,7 +242,7 @@ Once you've downloaded Anaconda, you can open the Anaconda Navigator; when you d
 ![Anaconda Navigator interface.](media/anaconda.png?raw=true)
 </div>
 
-### Knowledge Check 4
+### Quiz: Accessing Python
 
 How can you access Python to begin practicing on your own?
 
