@@ -5,9 +5,9 @@ email:    leemc@chop.edu
 version:  0.0.1
 language: en
 narrator: UK English Female
-title: Data Science with Python Part I: Data Import
-comment: This module covers data import in Python using several libraries including pandas, sqlite, and ???
-long_description: The first step in using Python for data science is importing your data. This module will teach you how to get your data into a useful format for analysis in Python, whether your data are in a spreadsheet, in a relational database, or scraped from the internet.
+title: Data Science with Python Part I: Importing Text Data
+comment: This module covers data import in Python using several libraries including pandas and various sql connection drivers.
+long_description: The first step in using Python for data science is importing your data. This module will teach you how to get your data into a useful format for analysis in Python, whether your data are in a spreadsheet, on the internet, or in a relational database.
 
 @learning_objectives
 
@@ -15,8 +15,8 @@ After completion of this module, learners will be able to:
 
 - Identify what kind of data they need to bring into Python
 - Use the appropriate package to import their data
-- Ensure that their data is parsed correctly
-- Get their data into a useful format for analysis
+- Know what parameters to specify to parse their data correctly
+- Get their data into a useful format for cleaning and analysis
 
 @end
 
@@ -47,14 +47,6 @@ This module assumes some basic familiarity with the Python programming language.
 
 </div>
 
-## Lesson Preparation
-
-This module makes use of an online interactive coding environment containing a Jupyter notebook. You don't need to install anything or set up an account, but you need a modern web browser like Chrome and a moderately good wifi connection.  Because it can take a few minutes for the environment to be created, we suggest you click the link below to start up the activity. We recommend using right-click to open it in a new tab or window, and then returning here to continue learning while the environment finishes loading.
-
- [![Open Binder environment.]() ← Click the "launch binder" button!
-
-If you have Python and Jupyter already installed on your computer and you prefer to work through code examples there, you can <a href="" download>download the code for this module to run offline</a>.
-
 ## pandas
 
 The primary toolset for data wrangling and analysis in Python is **pandas**. If you have downloaded Python using Anaconda, pandas should already be installed; if you just installed Python itself, you might need to install pandas using **pip** (for more information, check out [these instructions for using pip to install packages](https://packaging.python.org/en/latest/tutorials/installing-packages/#use-pip-for-installing)). The pandas toolset includes lots of useful functions for working with data, and we will be using it a lot in this series!
@@ -79,9 +71,13 @@ To open the covid testing CSV above, you would load the pandas toolset using the
 covid_testing = pd.read_csv("covid_testing.csv")
 ```
 
-This function reads the file covid_testing.csv using parsers that identify the variables, observations, and data types in the file. Because we're using a CSV-specific function, the parser automatically looks for the variables to be separated by commas, but you can change that using the `sep` or `delimiter` arguments. The Jupyter notebook for this lesson will go through how to change this and other arguments, depending on what your data look like. [For more information about `pandas.read_csv()`, including other arguments, check out the documentation](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html).
+This function reads the file covid_testing.csv using parsers that identify the variables, observations, and data types in the file. Because we're using a CSV-specific function, the parser automatically looks for the variables to be separated by commas, but you can change that using the `sep` or `delimiter` arguments. [For more information about `pandas.read_csv()`, including other arguments, check out the documentation](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html).
 
-This function has also created a DataFrame called `covid_testing` containing the data from covid_testing.csv. A DataFrame is a data structure in pandas that can be thought of as a table with rows and columns of labeled data. Don't worry about DataFrames for now, we'll talk more about them in the next lesson!
+This function has also created a DataFrame called `covid_testing` containing the data from covid_testing.csv:
+
+![Two code cells in a Jupyter notebook, importing pandas as pd, reading in the covid testing CSV file, and showing the first five and last five rows of the resulting DataFrame.](media/read_csv_default.png)
+
+A DataFrame is a data structure in pandas that can be thought of as a table with rows and columns of labeled data.
 
 <div class = "important">
 
@@ -103,10 +99,28 @@ There are a few more assumptions that `pandas.read_csv()` makes that are importa
 
 * By default, all of the columns will be included in your new DataFrame. If you only want a subset of columns, you can use the `usecols` argument and pass a list of columns (by column number or name).
 
-* The CSV parsers will make their best guess about what type of data is in each column, but if they guess wrong or you want to specify the data types for some reason, you can use the `dtype` argument and pass a dictionary with the columns and the desired type.
+* The CSV parsers will make their best guess about what type of data is in each column:
+
+  ![A code cell in a Jupyter notebook showing the data types of the variables in the covid testing DataFrame.](media/read_csv_dtypes.png)
+
+  If they guess wrong or you want to specify the data types for some reason, you can use the `dtype` argument and pass a dictionary with the columns and the desired type.
 
 There are other arguments for `pandas.read_csv()`, but these are among the most useful ones to know about.
 
+
+### Quiz: CSV Files
+
+Which of the following is the **required** parameter for `pandas.read_csv()`?
+
+[(X)] `file_path_or_buffer`
+[( )] `sep`
+[( )] `header`
+[( )] `dtype`
+*****************
+<div class = "answer">
+If you want the default behavior for reading your CSV file with `pandas.read_csv()`, you only need to specify the name or path of the file you want to read.
+</div>
+*****************
 
 ### Excel files
 
@@ -120,7 +134,7 @@ If your Excel file has more than one sheet, the default is to create a DataFrame
 
 ### Other plain text files
 
-Python can actually read all kinds of plain text files. Besides just like elements in CSV files are separated by commas, there are other separators (or **delimiters**) that are sometimes used, such as colons, tabs, spaces, vertical bars (or **pipes**). These types of files can generally be called **delimiter separated values** files, or DSVs. There are a couple of options to read files with these other delimiters:
+Python can actually read all kinds of plain text files. Besides just like elements in CSV files are separated by commas, there are other separators (or **delimiters**) that are sometimes used, such as colons, tabs, spaces, or vertical bars (also called **pipes**). These types of files can generally be called **delimiter separated values** files, or DSVs. There are a couple of options to read files with these other delimiters:
 
 * Use `pandas.read_csv()`, but instead of using the default `sep` or `delimiter` argument, you can pass the delimiter used in your file. For example, if our covid testing file was tab-separated rather than comma-separated, you could use the following code:
 
@@ -128,9 +142,13 @@ Python can actually read all kinds of plain text files. Besides just like elemen
   covid_testing = pd.read_csv("covid_testing.txt", sep = "\t")
   ```
 
+  The resulting DataFrame will look exactly like the previous one, where we read in the CSV. If you forgot to specify the new separator, you'd get something that looks like this:
+
+  ![A code cell in a Jupyter notebook showing the DataFrame resulting from reading in a tab separated version of the covid testing file with pandas read underscore csv, where the sep argument is unspecified. It is incorrectly formatted.](media/read_csv_tab_incorrect.png)
+
   <div class = "important">
 
-  `\t` is and example of an **escape character**; since the Python code above can't include literal tabs, we need a way to represent them in code when data that we're importing contains them.
+  `\t` is an example of an **escape character**; since the Python code above can't include literal tabs, we need a way to represent them in code when data that we're importing contains them.
 
   </div>
 
@@ -139,6 +157,23 @@ Python can actually read all kinds of plain text files. Besides just like elemen
   ```python
   covid_testing = pd.read_table("covid_testing.txt")
   ```
+
+  ![A code cell in a Jupyter notebook showing the DataFrame resulting from reading in a tab separated version of the covid testing file with pandas read underscore table, which is correctly formatted.](media/read_table_default_tab.png)
+
+### Quiz: Delimiter separated files
+
+What is the parameter in `pandas.read_csv()` and `pandas.read_table()` that specifies the separator in your file? Select all that apply.
+
+[[X]] `sep`
+[[ ]] `separator`
+[[ ]] `comma`
+[[X]] `delimiter`
+*****************
+<div class = "answer">
+You can use either the `sep` or `delimiter` parameters to tell Python what delimiter is used in your data file. Delimiters are sometimes called separators, and are commas in a CSV file (but can be other characters-- read on to find out more!).
+</div>
+*****************
+
 
 ## JSON and XML
 
@@ -241,6 +276,18 @@ XML has largely been replaced by JSON, but if you do end up encountering it, pan
 
 If the XML data can't become neatly 2-D, Python has several other modules and libraries you can use for XML parsing, including [`xml.etree.ElementTree`](https://docs.python.org/3.5/library/xml.etree.elementtree.html), [`untangle`](https://untangle.readthedocs.io/en/latest/), and [`xmltodict`](https://pypi.org/project/xmltodict/). We're won't go into detail here, but check out those resources if you're interested in working more with XML data in Python.
 
+### Quiz: JSON and XML
+
+Which of the following are **not** true about JSON and XML?
+
+[( )] JSON and XML are both formats by which data are transmitted over the internet.
+[(X)] Neither JSON nor XML data can be analyzed in Python.
+[( )] JSON and XML can be imported into Python in a DataFrame, or as another Python object, such as a dictionary.
+*****************
+<div class = "answer">
+JSON and XML, file formats that are used to transmit data over the internet, can both be analyzed in Python.
+</div>
+*****************
 
 ## Relational databases
 
@@ -253,7 +300,7 @@ To import data from a relational database, such as a SQL database (check out [th
   * To connect to and interact with a MySQL database, you can use the MySQL Connector/Python package, which you can install with **pip** (the Python package installer) by running `pip install mysql-connector-python` or with Anaconda by running `conda install mysql-connector-python` in your operating system's command line program. [This resource has more detail about using a MySQL database with Python](https://realpython.com/python-mysql/).
 
   <div class = "learnmore">
-  Check out [Command Line 101](https://liascript.github.io/course/?https://raw.githubusercontent.com/arcus/education_modules/main/bash_scripting_101/bash_scripting_101.md#1) for more information about using the Command Line on your own computer
+  Check out [Command Line 101](https://liascript.github.io/course/?https://raw.githubusercontent.com/arcus/education_modules/main/bash_scripting_101/bash_scripting_101.md#1) for more information about using the Command Line on your own computer.
   </div>
 
   * If using a PostgresSQL database, you can install the **psycopg2** driver instead. Check out the [Psycopg documentation](https://www.psycopg.org/docs/) for more information.
@@ -264,11 +311,28 @@ To import data from a relational database, such as a SQL database (check out [th
 When connecting with an external database, there might be authentication steps to take to access the data.
 </div>
 
-## Other data types
+### Quiz: Relational databases
+
+Which of these statements are true about relational databases in Python?
+
+[( )] It is not possible to connect to external databases in Python.
+[(X)] To connect to relational databases in Python, you need to install external drivers.
+[( )] In Python, you never have to authenticate to access a database.
+*****************
+<div class = "answer">
+It is absolutely possible to connect to external relational databases with Python; you just need to install the correct drivers! Be warned, you may need to authenticate, for example when you connect to a BigQuery database (BigQuery is a Google product).
+</div>
+*****************
+
 
 
 ## Additional Resources
 
+* W3schools has a variety of simple programming tutorials in a variety of languages, including Python, with simple code that you can run right right on the page:
+  * Here is [a tutorial about working with `pandas.read_csv()`](https://www.w3schools.com/python/pandas/pandas_csv.asp)
+  * And [one about working with `read_json()`](https://www.w3schools.com/python/pandas/pandas_json.asp).
+* [Learn more about CSV, JSON, and XML file formats here](https://education.arcus.chop.edu/data-types/)
+* Check out [this article you are curious to learn more about file paths](https://education.arcus.chop.edu/file-paths/)
 
 ## Feedback
 
