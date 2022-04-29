@@ -63,7 +63,7 @@ For help articulating learning objectives, see [this guide to learning objective
 
 </div>
 
-## Lesson Preparation
+## py test
 
 <lia-keep>
 <html>
@@ -138,6 +138,8 @@ def f(n=(0,10)):
   </body>
 </html>
 </lia-keep>
+
+## Lesson Preparation
 
 If your module includes code learners may want to run, then give links to a pangeo binder here so they can start it up now. Also provide a link to the raw code so learners can download the code itself and run it on their own machines or copy it into a cloud server.
 
