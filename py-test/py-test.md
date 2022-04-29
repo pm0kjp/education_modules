@@ -25,29 +25,7 @@ After completion of this module, learners will be able to:
 link:  https://chop-dbhi-arcus-education-website-assets.s3.amazonaws.com/css/styles.css
 
 script: https://kit.fontawesome.com/83b2343bd4.js
-script: https://sagecell.sagemath.org/static/embedded_sagecell.js
 
-@sagecell
-<script>
-// Make the div with id 'mycell' a Sage cell
-sagecell.makeSagecell({inputLocation:  '#mycell',
-                       template:       sagecell.templates.minimal,
-                       evalButtonText: 'Activate'});
-// Make *any* div with class 'compute' a Sage cell
-sagecell.makeSagecell({inputLocation: 'div.compute',
-                       evalButtonText: 'Evaluate'});
-// Make *any* div with class 'compute' a Sage cell
-sagecell.makeSagecell({inputLocation: 'div.python',
-                       evalButtonText: 'Run Python',
-                     languages: ['python'],
-                   editor: 'codemirror-readonly'});
- // Make *any* div with class 'compute' a Sage cell
- sagecell.makeSagecell({inputLocation: 'div.Rcell',
-                        evalButtonText: 'Run R',
-                      languages: ['r'],
-                    autoeval: true,});
-</script>
-@end
 
 -->
 
@@ -86,13 +64,31 @@ For help articulating learning objectives, see [this guide to learning objective
 </div>
 
 ## Lesson Preparation
-
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>SageMathCell</title>
-
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+    // Make the div with id 'mycell' a Sage cell
+    sagecell.makeSagecell({inputLocation:  '#mycell',
+                           template:       sagecell.templates.minimal,
+                           evalButtonText: 'Activate'});
+    // Make *any* div with class 'compute' a Sage cell
+    sagecell.makeSagecell({inputLocation: 'div.compute',
+                           evalButtonText: 'Evaluate'});
+    // Make *any* div with class 'compute' a Sage cell
+    sagecell.makeSagecell({inputLocation: 'div.python',
+                           evalButtonText: 'Run Python',
+                         languages: ['python'],
+                       editor: 'codemirror-readonly'});
+     // Make *any* div with class 'compute' a Sage cell
+     sagecell.makeSagecell({inputLocation: 'div.Rcell',
+                            evalButtonText: 'Run R',
+                          languages: ['r'],
+                        autoeval: true,});
+    </script>
   </head>
   <body>
   <h1>Embedded Sage Cells</h1>
@@ -139,7 +135,6 @@ def f(n=(0,10)):
 </script></div>
   </body>
 </html>
-
 
 If your module includes code learners may want to run, then give links to a pangeo binder here so they can start it up now. Also provide a link to the raw code so learners can download the code itself and run it on their own machines or copy it into a cloud server.
 
