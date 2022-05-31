@@ -73,6 +73,7 @@ sagecell.makeSagecell({inputLocation: 'div.python_data',
                       });                
 </script>
 @end
+persistent: true
 -->
 
 # Transform Data with pandas
